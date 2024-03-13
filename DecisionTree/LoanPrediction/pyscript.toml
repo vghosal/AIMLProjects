@@ -1,0 +1,4 @@
+packages = ["pandas", "scikit-learn"]
+[[fetch]]
+from = 'model.pkl'
+name = "Loan Prediction"
