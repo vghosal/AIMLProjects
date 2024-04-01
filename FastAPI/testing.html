@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Test ML API</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f5f5f5;
+        display: flex;
+
+        margin: 0;
+      }
+
+      .container {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        text-align: center;
+      }
+
+      input[type="number"] {
+        margin-bottom: 10px;
+        padding: 5px;
+      }
+
+      button {
+        background-color: #4caf50;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background-color: #45a049;
+      }
+
+      #result {
+        margin-top: 20px;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Test ML API</h1>
+      <input type="number" id="age" placeholder="Age" required />
+      <input type="number" id="sex" placeholder="Sex" required />
+      <input type="number" id="cp" placeholder="Chest Pain Type" required />
+      <input
+        type="number"
+        id="trestbps"
+        placeholder="Resting Blood Pressure"
+        required
+      />
+      <input type="number" id="chol" placeholder="Cholesterol" required />
+      <input
+        type="number"
+        id="fbs"
+        placeholder="Fasting Blood Sugar"
+        required
+      />
+      <input type="number" id="restecg" placeholder="Resting ECG" required />
+      <input
+        type="number"
+        id="thalach"
+        placeholder="Maximum Heart Rate"
+        required
+      />
+      <input
+        type="number"
+        id="exang"
+        placeholder="Exercise Induced Angina"
+        required
+      />
+      <input
+        type="number"
+        step="0.01"
+        id="oldpeak"
+        placeholder="Oldpeak"
+        required
+      />
+      <input type="number" id="slope" placeholder="Slope" required />
+      <input
+        type="number"
+        id="ca"
+        placeholder="Number of Major Vessels"
+        required
+      />
+      <input type="number" id="thal" placeholder="Thal" required />
+      <button onclick="sendRequest()">Predict</button>
+      <div id="result"></div>
+    </div>
+
+    <script>
+      function sendRequest() {
+        const age = document.getElementById("age").value;
+        const sex = document.getElementById("sex").value;
+        const cp = document.getElementById("cp").value;
+        const trestbps = document.getElementById("trestbps").value;
+        const chol = document.getElementById("chol").value;
+        const fbs = document.getElementById("fbs").value;
+        const restecg = document.getElementById("restecg").value;
+        const thalach = document.getElementById("thalach").value;
+        const exang = document.getElementById("exang").value;
+        const oldpeak = document.getElementById("oldpeak").value;
+        const slope = document.getElementById("slope").value;
+        const ca = document.getElementById("ca").value;
+        const thal = document.getElementById("thal").value;
+
+        const formData = new FormData();
+        formData.append("age", age);
+        formData.append("sex", sex);
+        formData.append("cp", cp);
+        formData.append("trestbps", trestbps);
+        formData.append("chol", chol);
+        formData.append("fbs", fbs);
+        formData.append("restecg", restecg);
+        formData.append("thalach", thalach);
+        formData.append("exang", exang);
+        formData.append("oldpeak", oldpeak);
+        formData.append("slope", slope);
+        formData.append("ca", ca);
+        formData.append("thal", thal);
+
+        fetch("http://127.0.0.1:8000/predict", {
+          method: "POST",
+          body: formData,
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            const resultDiv = document.getElementById("result");
+            resultDiv.textContent = `Prediction: ${data.prediction}`;
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+            alert("An error occurred while sending the request.");
+          });
+      }
+    </script>
+  </body>
+</html>
